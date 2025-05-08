@@ -7,27 +7,40 @@ namespace bilklasser;
      public string Brand;
      public string Modell;
      public string Color;
-     public string NewColor;
      public int Kilometerstand;
      public bool ErMotorStartet;
-                                   
+
+     public Bil(string brand, string modell)
+     {
+         Brand = brand;
+         Modell = modell;
+         Color = "Ukjent";
+         Kilometerstand = 0;
+         ErMotorStartet = false;
+     }
+
      public void StartMotor()
      {
-         ErMotorStartet = true;
-         Console.WriteLine($"Motoren til {Brand} {Modell} er startet.");
+         if (!ErMotorStartet)
+         {
+             ErMotorStartet = true;
+             Console.WriteLine($"Motoren til {Brand} {Modell} er startet.");
+
+         }
      }
+
      public void StoppMotor()
      {
          ErMotorStartet = false;
          Console.WriteLine($"Motoren til {Brand} {Modell} er skrudd av.");
      }
                                    
-     public void Kjør()
+     public void Kjør(int distance)
      {
          if (ErMotorStartet)
          {
-             Kilometerstand += 100;
-             Console.WriteLine($"{Brand} {Modell} har kjørt {Kilometerstand} km");
+             Kilometerstand += distance;
+             Console.WriteLine($"{Brand} {Modell} har kjørt {distance} km. Total kilometeravstand {Kilometerstand} km");
          }
          else
          {
@@ -35,11 +48,11 @@ namespace bilklasser;
          }
      }
                                    
-     public void EndreFarge()
+     public void EndreFarge(string newColor)
      {
-         NewColor = "Svart";
-                                   
-         Console.WriteLine($"{this.Brand} {this.Modell} som hadde fargen {this.Color} har nå fått fargen {this.NewColor}");
+         string oldColor = Color;
+         Color = newColor;
+         Console.WriteLine($"{this.Brand} {this.Modell} som hadde fargen {this.Color} har nå fått fargen {newColor}");
      }
                                    
      public void VisInfo()
@@ -52,30 +65,22 @@ class Program
 {
     static void Main(string[] args)
     {
-        Bil bil = new Bil();
-        Bil bil2 = new Bil();
-                                           
-        bil.Brand = "Volvo";
-        bil.Modell = "V90";
-        bil.Color = "Ukjent";
-        bil.Kilometerstand = 0;
-        bil.ErMotorStartet = false;
-                                           
-        bil2.Brand = "BMW";
-        bil2.Modell = "X7 SUV";
-        bil2.Color = "Ukjent";
-        bil2.Kilometerstand = 2000;
-        bil2.ErMotorStartet = false;
-                                   
-                                   
-        bil.VisInfo();
-        bil2.VisInfo();
-        bil.Kjør();
-        bil.StartMotor();
-        bil2.StartMotor();
-        bil.Kjør();
-        bil2.Kjør();
-        bil2.EndreFarge();
-                                   
+        Bil Volvo = new Bil("Volvo", "V90");
+        Bil BMW = new Bil("BMW", "X7 SUV");
+        
+        Volvo.VisInfo();
+        BMW.VisInfo();
+        Volvo.Kjør(150);
+        Volvo.StartMotor();
+        BMW.StartMotor();
+        Volvo.Kjør(150);
+        BMW.Kjør(36);
+        BMW.EndreFarge("Svart");
+        Volvo.EndreFarge("Red");
+        Volvo.VisInfo();
+        BMW.VisInfo();
+
+        Volvo.StoppMotor();
+
     }
 }
